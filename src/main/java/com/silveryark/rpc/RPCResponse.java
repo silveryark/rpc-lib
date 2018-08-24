@@ -1,6 +1,8 @@
 package com.silveryark.rpc;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -42,6 +44,35 @@ public abstract class RPCResponse<T> {
     }
 
     @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(requestId)
+                .append(status)
+                .append(payload)
+                .append(throwable)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+
+        RPCResponse<?> that = (RPCResponse<?>) o;
+
+        return new EqualsBuilder()
+                .append(requestId, that.requestId)
+                .append(status, that.status)
+                .append(payload, that.payload)
+                .append(throwable, that.throwable)
+                .isEquals();
+    }
+
+    @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
@@ -49,14 +80,14 @@ public abstract class RPCResponse<T> {
     public enum STATUS {
         OK(200), SERVER_ERROR(500), CLIENT_ERROR(400);
 
-        private int status;
+        private int code;
 
-        STATUS(int status) {
-            this.status = status;
+        STATUS(int code) {
+            this.code = code;
         }
 
         public int intValue() {
-            return status;
+            return code;
         }
 
     }
