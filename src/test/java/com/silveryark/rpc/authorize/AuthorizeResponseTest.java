@@ -1,6 +1,7 @@
 package com.silveryark.rpc.authorize;
 
 import com.silveryark.rpc.RPCResponse;
+import com.silveryark.rpc.authentication.AuthorizeResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
