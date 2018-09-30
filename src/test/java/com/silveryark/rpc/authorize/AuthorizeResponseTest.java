@@ -15,9 +15,12 @@ public class AuthorizeResponseTest {
     public void testBean() {
         String requestId = RandomStringUtils.randomAlphanumeric(16);
         String payload = RandomStringUtils.randomAlphanumeric(16);
-        AuthorizeResponse authorizeResponse = new AuthorizeResponse(requestId, RPCResponse.STATUS.CLIENT_ERROR, payload);
+        String uid = RandomStringUtils.randomAlphanumeric(16);
+        AuthorizeResponse authorizeResponse = new AuthorizeResponse(requestId, RPCResponse.STATUS.CLIENT_ERROR, uid,
+                payload);
         Assert.assertEquals("requestId should equal.", requestId, authorizeResponse.getRequestId());
         Assert.assertEquals("status should equal.", RPCResponse.STATUS.CLIENT_ERROR, authorizeResponse.getStatus());
+        Assert.assertEquals("uid should equal.", uid, authorizeResponse.getUid());
         Assert.assertEquals("payload should equal.", payload, authorizeResponse.getPayload());
     }
 }

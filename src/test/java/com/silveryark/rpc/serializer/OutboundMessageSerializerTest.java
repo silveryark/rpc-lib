@@ -19,7 +19,9 @@ public class OutboundMessageSerializerTest {
     public void init() {
         String requestId = RandomStringUtils.randomAlphanumeric(16);
         String payload = RandomStringUtils.randomAlphanumeric(16);
-        outboundMessage = new OutboundMessage<>(requestId, payload);
+        String topic = RandomStringUtils.randomAlphanumeric(16);
+        String uid = RandomStringUtils.randomAlphanumeric(16);
+        outboundMessage = new OutboundMessage<>(requestId, topic, uid, payload);
     }
 
     @Test

@@ -1,5 +1,7 @@
 package com.silveryark.rpc;
 
+import com.silveryark.rpc.gateway.OutboundMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -9,8 +11,17 @@ import reactor.core.publisher.Mono;
 public class Brokers {
 
     private static volatile WebClient.Builder clientBuilder = WebClient.builder();
+    @Value("${broker:#{null}}")
+    private String defaultBrokerAddress;
+
+    public Builder create() {
+        return create(defaultBrokerAddress);
+    }
 
     public Builder create(String baseUrl) {
+        if (baseUrl == null) {
+            throw new IllegalArgumentException("null baseUrl, try setting default value via conf or build manually");
+        }
         return create("http", baseUrl);
     }
 
@@ -38,7 +49,7 @@ public class Brokers {
             return this;
         }
 
-        public Builder body(Object obj) {
+        public Builder body(OutboundMessage obj) {
             this.body = obj;
             return this;
         }

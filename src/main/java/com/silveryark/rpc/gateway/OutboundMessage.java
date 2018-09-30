@@ -6,20 +6,28 @@ import com.silveryark.rpc.RPCRequest;
 
 public class OutboundMessage<T> extends RPCRequest<T> {
     private String topic;
+    private String uid;
 
-    public OutboundMessage(String topic, T payload) {
+    public OutboundMessage(String topic, String uid, T payload) {
         super(payload);
+        this.uid = uid;
         this.topic = topic;
     }
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    protected OutboundMessage(@JsonProperty("requestId") String requestId,@JsonProperty("topic") String topic,
-                            @JsonProperty("payload") T payload){
+    public OutboundMessage(@JsonProperty("requestId") String requestId, @JsonProperty("topic") String topic,
+                           @JsonProperty("uid") String uid,
+                           @JsonProperty("payload") T payload) {
         super(requestId, payload);
+        this.uid = uid;
         this.topic = topic;
     }
 
     public String getTopic() {
         return topic;
+    }
+
+    public String getUid() {
+        return uid;
     }
 }

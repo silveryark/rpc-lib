@@ -1,6 +1,7 @@
 package com.silveryark.rpc;
 
 import com.google.common.net.MediaType;
+import com.silveryark.rpc.gateway.OutboundMessage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +48,9 @@ public class BrokersTest {
     private MockServerClient testSend(boolean isMessage) throws JSONException {
         String requestId = RandomStringUtils.randomAlphanumeric(16);
         String payload = RandomStringUtils.randomAlphanumeric(16);
-        GenericRequest body = new GenericRequest(requestId, payload);
+        String topic = RandomStringUtils.randomAlphanumeric(16);
+        String uid = RandomStringUtils.randomAlphanumeric(16);
+        OutboundMessage body = new OutboundMessage(requestId, topic, uid, payload);
         new MockServerClient("localhost", port)
                 .when(request()
                         .withMethod("POST"))
@@ -55,6 +58,8 @@ public class BrokersTest {
                         new JSONObject()
                                 .put("requestId", requestId)
                                 .put("payload", payload)
+                                .put("topic", topic)
+                                .put("uid", uid)
                                 .put("status", "OK").toString()
                         , MediaType.JSON_UTF_8));
         HttpRequest post = request()

@@ -28,9 +28,10 @@ public class GatewayMessageTest {
     @Test
     public void testOutboundMessageWithId() {
         String requestId = RandomStringUtils.randomAlphanumeric(16);
+        String uid = RandomStringUtils.randomAlphanumeric(16);
         String topic = RandomStringUtils.randomAlphanumeric(16);
         String payload = RandomStringUtils.randomAlphanumeric(16);
-        OutboundMessage<String> outboundMessage = new OutboundMessage<>(requestId, topic, payload);
+        OutboundMessage<String> outboundMessage = new OutboundMessage<>(requestId, topic, uid, payload);
         Assert.assertEquals("topic should equal.", topic, outboundMessage.getTopic());
         Assert.assertEquals("requestId should equal.", requestId, outboundMessage.getRequestId());
         Assert.assertEquals("payload should equal.", payload, outboundMessage.getPayload());
@@ -38,11 +39,14 @@ public class GatewayMessageTest {
 
     @Test
     public void testOutboundMessage() {
+        String requestId = RandomStringUtils.randomAlphanumeric(16);
         String topic = RandomStringUtils.randomAlphanumeric(16);
         String payload = RandomStringUtils.randomAlphanumeric(16);
-        OutboundMessage<String> outboundMessage = new OutboundMessage<String>(topic, payload);
+        String uid = RandomStringUtils.randomAlphanumeric(16);
+        OutboundMessage<String> outboundMessage = new OutboundMessage<String>(requestId, topic, uid, payload);
         Assert.assertNotNull("requestId should not be null", outboundMessage.getRequestId());
         Assert.assertEquals("topic should equal.", topic, outboundMessage.getTopic());
         Assert.assertEquals("payload should equal.", payload, outboundMessage.getPayload());
+        Assert.assertEquals("uid should equal.", uid, outboundMessage.getUid());
     }
 }
